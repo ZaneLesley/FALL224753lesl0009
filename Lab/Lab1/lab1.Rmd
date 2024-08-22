@@ -21,7 +21,7 @@ getwd()
 
 ## Task 2
 ```{r}
-ddt <- read.csv("DDT.csv")
+ddt <- read.csv("DDT-1.csv")
 head(ddt)
 ```
 
