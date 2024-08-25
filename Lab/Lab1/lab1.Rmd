@@ -15,15 +15,138 @@ knitr::opts_chunk$set(echo = TRUE)
 # Tasks
 
 ## Task 1
+
 ```{r}
 getwd()
 ```
 
 ## Task 2
+
 ```{r}
-ddt <- read.csv("DDT-1.csv")
-head(ddt)
+ddt <- read.csv("DDT.csv")
+head(ddt, 6)
 ```
 
+## Task 3
+
+### Qualitative Variables
+
+```{r}
+names(ddt[,c("RIVER", "SPECIES")])
+```
+
+### Quantative Variables
+
+```{r}
+names(ddt[,c("MILE", "LENGTH", "WEIGHT", "DDT")])
+```
+
+### Species in DDT
+
+```{r}
+length(ddt[,"SPECIES"])
+```
+
+### Species == LMBASS, Weight > 800gms
+
+```{r}
+with(ddt, ddt[SPECIES=="LMBASS" & WEIGHT > 800,])
+```
+
+### River == SCM, DDT > 4.0
+```{r}
+with(ddt, ddt[RIVER == "SCM" & DDT> 4.0,])
+```
+
+## Task 4
+### Mean of length of fish
+```{r}
+mean(ddt$LENGTH)
+```
+
+### Standard Devation of Weight
+```{r}
+sd(ddt$WEIGHT)
+```
+
+### Length vs Weight
+```{r}
+filtered_ddt <- ddt[,c("LENGTH", "WEIGHT")]
+with(filtered_ddt, filtered_ddt[order(WEIGHT),])
+```
+No it is swapped, graph is WEIGHT vs LENGTH
+
+### last value of v/20
+```{r}
+v <- ddt[1:20,]
+v[20,]
+```
+
+## Task 5
+
+### Table of Rivers
+```{r}
+river_table = with(ddt, table(RIVER))
+river_table
+```
+
+### Barplot of rivers
+```{r}
+library(ggplot2)
+barplot(river_table, col=rainbow(4))
+```
+### 2D Table
+```{r}
+table_riv_species = with(ddt, table(RIVER, SPECIES))
+table_riv_species
+```
+
+### 2D Bar Plot
+```{r}
+barplot(table_riv_species)
+```
+
+## Task 6
+### Pie chart of Fish Species
+```{r}
+pie(with(ddt, table(SPECIES)))
+```
+
+### Pie Chart of Rivers
+```{r}
+pie(with(ddt, table(RIVER)))
+```
+
+## Task 7
+### Boxplot of DDT
+```{r}
+with(ddt, boxplot(DDT))
+```
+
+### Boxplot of WEIGHT
+```{r}
+with(ddt, boxplot(WEIGHT))
+```
+
+### Boxplot of LENGTH
+```{r}
+with(ddt, boxplot(LENGTH))
+```
+
+## Task 8
+### Coplot of Length vs Weight given River
+```{r}
+with(ddt, coplot(LENGTH~WEIGHT|RIVER, row=1))
+```
+
+### Coplot of DDT vs Weight given Species
+```{r}
+with(ddt, coplot(DDT~WEIGHT|SPECIES, row=1))
+```
+
+## Task 9
+```{r}
+with(ddt, boxplot(WEIGHT~SPECIES+RIVER, col=rainbow(4)))
+```
 
 
