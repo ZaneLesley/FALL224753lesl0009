@@ -78,9 +78,10 @@ No it is swapped, graph is WEIGHT vs LENGTH
 
 ### last value of v/20
 ```{r}
-v <- ddt[1:20,]
-v[20,]
+v <- 1:20
+v[20] / 20
 ```
+1
 
 ## Task 5
 
@@ -145,8 +146,20 @@ with(ddt, coplot(DDT~WEIGHT|SPECIES, row=1))
 ```
 
 ## Task 9
+
+### Box Plot
 ```{r}
-with(ddt, boxplot(WEIGHT~SPECIES+RIVER, col=rainbow(4)))
+ggplot(ddt, aes(x = SPECIES, y= WEIGHT, fill=RIVER)) + geom_boxplot() + ggtitle('Zane Lesley')
+```
+
+### Scatter Plot
+```{r}
+ggplot(ddt, aes(x = RIVER, y= LENGTH, fill=SPECIES)) + geom_violin() + ggtitle('Zane Lesley')
+```
+
+### Scatter Plot
+```{r}
+ggplot(ddt, aes(x = WEIGHT, y= LENGTH, color=SPECIES)) + geom_point() + ggtitle('Zane Lesley')
 ```
 
 

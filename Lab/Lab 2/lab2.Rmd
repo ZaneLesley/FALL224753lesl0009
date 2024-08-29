@@ -1,0 +1,115 @@
+---
+title: "Lab2"
+author: "Zane Lesley"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tasks
+
+## Task 1
+
+### setwd()
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab 2")
+```
+
+## Task 2 
+
+### CSV
+```{r}
+ddt <- read.csv("EPAGAS.CSV")
+head(ddt, 6)
+```
+
+## Task 3
+
+```{r}
+mpg <- ddt$MPG
+```
+
+### Z Transformation and Verification
+```{r}
+z = (mpg - mean(mpg)) / sd(mpg)
+
+mean(z)
+sd(z)^2
+```
+
+### Outliers
+```{r}
+mpg[abs(z)>=2 & abs(z)<=3]
+
+mpg[abs(z)>3]
+```
+
+### lattice
+```{r}
+library(lattice)
+dotplot(mpg, col= 
+          ifelse(abs(z)>3, "Red",
+               ifelse(abs(z)>=2 & abs(z)<=3, "Blue", "Black")
+               )
+        )
+```
+
+## Task 4
+### Boxplot
+```{r}
+library(ggplot2)
+ggplot(ddt, aes(y=mpg)) + geom_boxplot(fill='Black', notch=TRUE) + labs(y="Miles Per gallon", x="Z-Score") + ggtitle("Z-Score vs. Miles per Gallon") + coord_flip()
+```
+
+## Chebyshev
+3/4ths of the data should lie within two standard deviations of the mean.
+
+## Exact Porportion within 2 SD of the mean
+```{r}
+length(mpg[abs(z) < 2]) / length(mpg)
+```
+
+### Does Chebyshev Agree?
+Yes, it agrees, we had 75% or more in our data lie within the SD of 2.
+
+### Empirical Rule  
+95% of the data should lie within two standard deviations of the mean.
+
+### Does it correspond?
+It corresponds very closely being that we got 96% of our data is within 2 SD of the mean
+
+### Is it valid in this case?
+For it to be valid, the graph of the data (mpg in this case) must be in a bell curve. We can verify this with a histogram with sd as our x and Frequency as our y.
+```{r}
+ggplot(ddt, aes(x = z)) + 
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(x = "z score", y = "Frequency")
+```
+
+You can see if we start grouping the close z-scores together, we get a nice bell curve which means it is valid.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
