@@ -1,0 +1,206 @@
+---
+title: "Assignment 1"
+author: "Zane Lesley"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab1")
+ddt=read.csv("DDT.csv")
+head(ddt)
+```
+# Tasks
+
+## Q1
+
+In Class Quizzes - 10%
+Labs = 10%
+Chapter Quizzes - 5%
+Project 1 - 3.33%
+Project 2 - 6.67%
+Exam 1 - 10%
+Exam 2 - 10%
+Assignments - 15%
+Final Exam - 30%
+
+Normal grading, but B is extended to 70%+ and C is 60%+.
+
+## Q2
+
+```{r}
+m = with(ddt, as.numeric(factor(MILE)))
+length(unique(m))
+
+with(ddt, coplot(LENGTH~WEIGHT | RIVER*SPECIES, row=1, col=m))
+```
+
+### b)
+The catfish were very similar within Length and weight, being found in different rivers as well at different miles.
+
+### c)
+factor() essentially converts the MILE into a list of values, which as.numeric then converts those unique values
+into numeric values.
+
+### d)
+unique(m) makes each of those numeric values unique, consisting of only one of each type, which length gives how many of those values there
+are.
+
+### e)
+No Large mouth bass or small buffalo fish exist in those rivers.
+
+### f)
+```{r}
+mean(ddt[ddt$RIVER == "FCM" & ddt$SPECIES == "CCATFISH"]$DDT)
+```
+
+## Q3)
+a. Quantitative 
+b. Quantitative
+c. Qualitative
+d. Quantitative
+e. Qualitative
+f. Quantitative
+g. Qualitative
+
+## Q4)
+
+simple random - select x amount of data points using a random number generator to assign them to the sample.
+
+stratified random sampling - data points are chosen when you can categorical sort the data points into groups that are more 
+similar within their strata vs across the sample's strata. We then get random samples from within those strata. 
+(speed limit example 25mph, 40mph, or 55mph depending on max street speed limit)
+
+cluster sampling - sample a certain amount from the whole population, so pick 10 of 150 programs, then examine each program for errors.
+
+systematic sampling - select ever nth data point in the population.
+
+## Q5)
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Assignment/ASS1")
+mtbe = read.csv("MTBE.csv")
+ind = sample(1:223, 5, replace=FALSE)
+mtbe[ind,]
+```
+
+### a)
+```{r}
+mtbeo = na.omit(mtbe)
+sd(mtbeo[mtbeo$Aquifier == "Bedrock",]$Depth)
+```
+
+## Q6)
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Assignment/ASS1")
+eq = read.csv("EARTHQUAKE.csv")
+rm(ind)
+ind = sample(1:2929, 30, replace=FALSE)
+eq[ind,]
+```
+
+### ai)
+```{r}
+plot(ts(eq$MAG))
+```
+
+### aii
+```{r}
+median(eq$MAGNITUDE)
+```
+
+## Q7)
+
+Stratified Random Sampling 
+
+The population is the fish in the rivers, the sample would be the fish they caught.
+
+River, Species.
+
+## Q8)
+a. Bar 
+b. Types of Robotic Limbs
+c. Legs Only
+d. 15,8,63,20
+### e)
+```{r}
+freq = c(15, 8, 63, 20)
+RL = c("None", "Both", "Legs","Wheels")
+l = rep(RL, freq)
+source("pareto.r")
+pareto(l)
+```
+
+## Q9)
+```{r}
+freq = c(6, 8, 22, 3, 11)
+RL = c("DDOS", "ID", "RCE","Spoofing", "PE")
+l = rep(RL, freq)
+
+pie(freq, labels=RL)
+pareto(l)
+```
+
+## Q10)
+```{r}
+swd = read.csv("SWDEFECTS.csv", header=TRUE)
+library(plotrix)
+tab=table(swd$defect)
+rtab=tab/sum(tab)
+round(rtab, 2)
+pie3D(rtab, labels=list("OK", "Defective"), main="pie plot of SWD")
+```
+
+The piechart shows that most of the software is good and not defective, while a small portion of it is still defective.
+
+## Q11)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
