@@ -221,20 +221,74 @@ new_z
 ```
 It is more likely to occur at the old location as the z-score is closer to 0.
 
-### i)
+### i-j)
+```{r}
+boxplot(oldvolt, ylab="Voltage")
+z = (oldvolt - mean(oldvolt)) / sd(oldvolt)
+oldvolt[abs(z) > 2]
+```
+Yes, each dot outside of the whiskers is an outlier. 
+
+### k-l)
+```{r}
+boxplot(newvolt, ylab="Voltage")
+rm(z)
+z = (newvolt - mean(newvolt)) / sd(newvolt)
+newvolt[abs(z) > 2]
+```
+No points are abs(z) > 2 of the standard deviation for the new voltage values.
+
+### m)
+
+Most of the data for the old voltage is much more centralized with less variance around the SD, so the values that are equal as extreme in the new voltage show up as outliers in the old voltage location.
+
+## Q12)
+```{r}
+pipe = read.csv("ROUGHPIPE.csv")
+pipero = pipe$ROUGH
+
+c(mean(pipero) - 2 * sd(pipero), mean(pipero) + 2 * sd(pipero))
+```
+
+## Q13)
+```{r}
+ants = read.csv("GOBIANTS.csv")
+
+mean(ants$AntSpecies)
+median(ants$AntSpecies)
+sorted = sort(table(ants$AntSpecies), decreasing = TRUE)
+names(sorted)[1]
+```
+Because of the outliers in 52 and 49, i think the mean is swayed too far up, so in this case I would use the median for the central tendency. In general with this small of a sample, I wouldn't recommend using the mode.
+
+### c)
+```{r}
+dry_ants = ants[ants$AntSpecies & ants$Region=="Dry Steppe",] 
+mean(dry_ants$AntSpecies)
+median(dry_ants$AntSpecies)
+sorted = sort(table(dry_ants$AntSpecies), decreasing = TRUE)
+names(sorted)[1]
+```
+### d)
+```{r}
+gobi_ants = ants[ants$AntSpecies & ants$Region=="Gobi Desert",] 
+mean(gobi_ants$AntSpecies)
+median(gobi_ants$AntSpecies)
+sorted = sort(table(gobi_ants$AntSpecies), decreasing = TRUE)
+names(sorted)[1]
+```
+### e)
+
+The values aren't too far away from each other, but they aren't too different from each other
 
 
+## Q14)
+```{r}
+galaxy = read.csv("GALAXY2.csv")
 
-
-
-
-
-
-
-
-
-
-
+hist(galaxy$VELOCITY, col=rainbow(2), xlab="Velocity (km/s)", main="Histogram of Galaxies' Velocity")
+```
+Yes, we see two bell curvish shapes, indicating that there could be 2 galaxies, one where the central tendency between 19000-20000, and one around 22000-23000.
 
 
 
