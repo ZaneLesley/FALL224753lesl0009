@@ -12,31 +12,31 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Tasks Completed
+15/15
 
-```{r}
-setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab1")
-ddt=read.csv("DDT.csv")
-head(ddt)
-```
 # Tasks
 
 ## Q1
 
-In Class Quizzes - 10%
-Labs = 10%
-Chapter Quizzes - 5%
-Project 1 - 3.33%
-Project 2 - 6.67%
-Exam 1 - 10%
-Exam 2 - 10%
-Assignments - 15%
-Final Exam - 30%
+In Class Quizzes - 10%\
+Labs = 10\
+Chapter Quizzes - 5%\
+Project 1 - 3.33%\
+Project 2 - 6.67%\
+Exam 1 - 10%\
+Exam 2 - 10%\
+Assignments - 15%\
+Final Exam - 30%\
 
 Normal grading, but B is extended to 70%+ and C is 60%+.
 
 ## Q2
 
 ```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab1")
+ddt=read.csv("DDT.csv")
+
 m = with(ddt, as.numeric(factor(MILE)))
 length(unique(m))
 
@@ -55,7 +55,7 @@ unique(m) makes each of those numeric values unique, consisting of only one of e
 are.
 
 ### e)
-No Large mouth bass or small buffalo fish exist in those rivers.
+No Large mouth bass or smallmouth buffalo fish exist in those rivers.
 
 ### f)
 ```{r}
@@ -289,6 +289,30 @@ galaxy = read.csv("GALAXY2.csv")
 hist(galaxy$VELOCITY, col=rainbow(2), xlab="Velocity (km/s)", main="Histogram of Galaxies' Velocity")
 ```
 Yes, we see two bell curvish shapes, indicating that there could be 2 galaxies, one where the central tendency between 19000-20000, and one around 22000-23000.
+
+### c)
+```{r}
+galaxyA <- subset(galaxy, subset=galaxy$VELOCITY<=21500)
+galaxyB <- subset(galaxy, subset=galaxy$VELOCITY>21500)
+
+cat("Galaxy A (mean, sd):\n")
+mean(galaxyA$VELOCITY)
+sd(galaxyA$VELOCITY)
+cat("Galaxy B (mean, sd):\n")
+mean(galaxyB$VELOCITY)
+sd(galaxyB$VELOCITY)
+```
+### d)
+I would say 1775A because of the fact that the mean for my subset of the galaxy puts it closer to the mean (19462) of galaxy A versus the mean (22838) of galaxy B.
+
+## Q15)
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab1")
+ddt=read.csv("DDT.csv")
+
+library(ggplot2)
+ggplot(ddt, aes(x = RIVER, y= LENGTH, fill=SPECIES)) + geom_boxplot() + ggtitle('Zane Lesley')
+```
 
 
 
