@@ -161,15 +161,67 @@ pie3D(rtab, labels=list("OK", "Defective"), main="pie plot of SWD")
 The piechart shows that most of the software is good and not defective, while a small portion of it is still defective.
 
 ## Q11)
+```{r}
+volt = read.csv("VOLTAGE.csv")
+subvolt <- subset(volt, subset=LOCATION=="OLD")
+oldvolt = subvolt$VOLTAGE
+freq = round(((max(oldvolt) - min(oldvolt)) / 9), 4)
+lept = 8.0
+rept = 10.6
+cl = seq(lept, rept, by=freq)
+cutvolt <- cut(oldvolt, breaks=cl)
+new.tab=table(cutvolt)
+barplot(new.tab, space=0, main="Old Volt Frequency Histogram", las=2, col=rainbow(2))
+stem(oldvolt, scale=2)
+```
 
+### b)
+Essentially, they both show the same thing, the difference being in the stem-and-leaf plot we are not having any intervals and instead
+are sorting by the exact values, whereas in the barplot we are showing more so a summary of frequencies. I would say the barplot is more of a quick overview, whereas the stem-and-leaf is much more precise and has more inherit information.
 
+###c)
+```{r}
+volt = read.csv("VOLTAGE.csv")
+subvolt <- subset(volt, subset=LOCATION=="NEW")
+newvolt = subvolt$VOLTAGE
+freq = round(((max(newvolt) - min(oldvolt)) / 9), 4)
+lept = 8.0
+rept = 10.6
+cl = seq(lept, rept, by=freq)
+cutvolt <- cut(newvolt, breaks=cl)
+new.tab=table(cutvolt)
+barplot(new.tab, space=0, main="New Volt Frequency Histogram", las=2, col=rainbow(2))
+stem(newvolt, scale=2)
+```
 
+### d)
 
+At the old location we only have 4 readings under 9.2 which would be considered bad, whereas at the new location we have 9 readings under 9.2. So the old location is still better has we have less readings under 9.2.
 
+### e) mean, median, mode (in order)
+```{r}
+cat("old locations:\n")
+mean(oldvolt)
+median(oldvolt)
+sorted = sort(table(oldvolt), decreasing = TRUE)
+names(sorted)[1]
+cat("new locations:\n")
+mean(newvolt)
+median(newvolt)
+sorted = sort(table(newvolt), decreasing = TRUE)
+names(sorted)[1]
+```
 
+### f-h)
+```{r}
+old_z = (10.50 - mean(oldvolt)) / sd(oldvolt) 
+old_z
+new_z = (10.50 - mean(newvolt)) / sd(newvolt) 
+new_z
+```
+It is more likely to occur at the old location as the z-score is closer to 0.
 
-
-
+### i)
 
 
 
