@@ -1,0 +1,252 @@
+---
+title: "Lab 5"
+author: "Zane Lesley"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tasks
+
+## Task 1
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab 5")
+```
+
+## Task 2
+### The function
+```{r}
+mybin=function(iter=100,n=10, p=0.5){ 
+# make a matrix to hold the samples
+#initially filled with NA's
+sam.mat=matrix(NA,nr=n,nc=iter, byrow=TRUE)
+#Make a vector to hold the number of successes in each trial
+succ=c()
+for( i in 1:iter){
+#Fill each column with a new sample
+sam.mat[,i]=sample(c(1,0),n,replace=TRUE, prob=c(p,1-p))
+#Calculate a statistic from the sample (this case it is the sum)
+succ[i]=sum(sam.mat[,i])
+}
+#Make a table of successes
+succ.tab=table(factor(succ,levels=0:n))
+#Make a barplot of the proportions
+barplot(succ.tab/(iter), col=rainbow(n+1), main="Binomial simulation", xlab="Number of successes")
+succ.tab/iter
+}
+```
+
+### 100 iterations
+```{r}
+mybin(n=10, p=0.7, iter=100)
+```
+
+### 200 iterations
+```{r}
+mybin(n=10, p=0.7, iter=200)
+```
+### 500 iterations
+```{r}
+mybin(n=10, p=0.7, iter=500)
+```
+### 1000 iterations
+```{r}
+mybin(n=10, p=0.7, iter=1000)
+```
+### 10000 iterations
+```{r}
+mybin(n=10, p=0.7, iter=10000)
+```
+
+### Verification
+```{r}
+dbin.tab = round(dbinom(0:10, size=10, prob = 0.7), 4)
+names(dbin.tab) = 0:10
+dbin.tab
+```
+
+You can see the values are pretty close which means or functions approximates are pretty close.
+
+## Task 3
+```{r}
+sample(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0), size = 5, replace=FALSE, prob = NULL)
+```
+### Replace = TRUE
+```{r}
+sample(c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0), size = 5, replace=TRUE, prob = NULL)
+```
+
+### Hyper
+```{r}
+myhyper=function(iter=100,N=20,r=12,n=5){
+# make a matrix to hold the samples
+#initially filled with NA's
+sam.mat=matrix(NA,nr=n,nc=iter, byrow=TRUE)
+#Make a vector to hold the number of successes over the trials
+succ=c()
+for( i in 1:iter){
+#Fill each column with a new sample
+sam.mat[,i]=sample(rep(c(1,0),c(r,N-r)),n,replace=FALSE)
+#Calculate a statistic from the sample (this case it is the sum)
+succ[i]=sum(sam.mat[,i])
+}
+#Make a table of successes
+succ.tab=table(factor(succ,levels=0:n))
+#Make a barplot of the proportions
+barplot(succ.tab/(iter), col=rainbow(n+1), main="HYPERGEOMETRIC simulation", xlab="Number of successes")
+succ.tab/iter
+}
+```
+
+### 100 iterations
+```{r}
+myhyper(n=5, N = 20,r=12, iter=100)
+```
+
+### 200 iterations
+```{r}
+myhyper(n=5, N = 20,r=12, iter=200)
+```
+### 500 iterations
+```{r}
+myhyper(n=5, N = 20,r=12, iter=500)
+```
+### 1000 iterations
+```{r}
+myhyper(n=5, N = 20,r=12, iter=100)
+```
+### 10000 iterations
+```{r}
+myhyper(n=5, N = 20,r=12, iter=10000)
+```
+
+### Verification
+```{r}
+dhyp.tab = round(dhyper(x = 0:5, m = 12, n = 8, k = 5), 4)
+names(dhyp.tab) = 0:5
+dhyp.tab
+```
+
+The dhyper and the myhyper are pretty close in values, close enough to assume they are approx. correct.
+
+## Task 4
+
+mysample should randomly generate a sample it is strictly between 1 and 10. It will replace the numbers it picks and will run
+iter times. It then visualizes the data using bar plots. It also has a time parameter which will make the function wait by time.
+
+## The function
+```{r}
+mysample=function(n, iter=10,time=0.5){
+for( i in 1:iter){
+#make a sample
+s=sample(1:10,n,replace=TRUE)
+# turn the sample into a factor
+sf=factor(s,levels=1:10)
+#make a barplot
+barplot(table(sf)/n,beside=TRUE,col=rainbow(10), 
+main=paste("Example sample()", " iteration ", i, " n= ", n,sep="") ,
+ylim=c(0,0.2)
+)
+
+#release the table
+Sys.sleep(time)
+}
+}
+```
+
+## Running mysample()
+
+Change this to be iter=1 so it will only run 1 time and the html file won't be super long.
+```{r}
+mysample(n = 1000, iter=1, time=1)
+```
+
+The output is bar plots which shows the distribution for each number which each is around .10.
+
+## Task 5
+```{r}
+choose(8, 4)
+```
+### P(Y>4),Y~Pois(λ=2)
+```{r}
+1 - ppois(q = 3, lambda = 2)
+```
+
+### P(Y=10),Y~NegBin(p=0.4,r=3)
+```{r}
+choose(10 - 1, 3 - 1) * 0.4 ^ 3 * 0.6 ^ (10 - 3)
+```
+### P(Y≤8),Y~Bin(n=15,p=0.4)
+```{r}
+pbinom(q = 8, size = 15, prob=0.4)
+```
+
+
+## Task 6
+```{r}
+library(devtools)
+devtools::install("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/LabPackages")
+library(LabPackages)
+tmp <- LabPackages::mybin(n=10, p=0.7, iter=100)
+tmp
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,259 @@
+---
+title: "Lab 4"
+author: "Zane Lesley"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tasks
+
+## Task 1
+
+```{r}
+setwd("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/Lab/Lab 4")
+```
+
+## Task 2
+
+```{r}
+spruce <- read.csv("SPRUCE.csv")
+tail(spruce)
+```
+
+## Task 3
+
+```{r}
+library(s20x)
+trendscatter(Height~BHDiameter, data=spruce, f = 0.5)
+```
+
+### Linear Model
+
+```{r}
+# Now make the linear model
+spruce.lm=lm(Height~BHDiameter,data=spruce)
+summary(spruce.lm)
+```
+
+### Fitted and Residuals Values
+
+```{r}
+#residuals  created from the linear model object
+height.res=residuals(spruce.lm)
+
+#fitted values made from the linear model object
+height.fit=fitted(spruce.lm)
+```
+
+### Residuals vs Fitted
+
+```{r}
+plot(y = height.res, x = height.fit)
+```
+
+### Trendscatter Resiudals vs Fitted
+
+```{r}
+trendscatter(x = height.fit, y=height.res)
+```
+
+### What shape is seen?
+A parabolic shape is seen, it resembles it better than the first plot though. The second plot breaks much more than the first plot.
+
+### Residual Plot
+```{r}
+plot(spruce.lm, which = 1)
+```
+
+### Norm Check
+```{r}
+normcheck(spruce.lm, shapiro.wilk = TRUE)
+```
+### P-Value and Null
+
+The p-value is 0.29, because p-value > 0.05, the Null-Hypothesis applies and the data is distributed evenly.
+
+### Evaluting the model
+```{r}
+round(mean(height.res), 4)
+```
+
+### In Conclusion
+
+We should not use a straight line model. The distribution has a quadratic shape. We are finding noise because the this model doesn't
+fit our data.
+
+## Task 4
+
+```{r}
+quad.lm = lm(Height~BHDiameter + I(BHDiameter ^ 2), data=spruce)
+
+summary(quad.lm)
+```
+
+### Quadtraic Curve
+```{r}
+plot(spruce)
+
+myplot = function(x){
+  quad.lm$coef[1] + quad.lm$coef[2] * x + quad.lm$coef[3] * x ^ 2
+}
+
+curve(myplot, lwd = 2, col = "steelblue", add = TRUE)
+```
+
+### Quad Fit
+```{r}
+quad.fit = fitted(quad.lm)
+plot(quad.lm, which = 1)
+```
+
+### Norm
+```{r}
+normcheck(quad.lm, shapiro.wilk = TRUE)
+```
+
+### p - value Conclusion
+The p - value is 0.684, which is greater than 0.05 so we accept it. This model fits the data much better than the previous one.
+
+## Task 5
+
+```{r}
+summary(quad.lm)
+```
+
+### Equation of fitted line
+
+$$\hat{\beta_1} = 0.860896 \space \hat{\beta_2} = 1.469592 \space \hat{\beta_3} = -0.027457$$
+### Height predictions 
+```{r}
+predict(quad.lm, data.frame(BHDiameter = c(15, 18, 20)))
+```
+
+### Comparison
+```{r}
+summary(quad.lm)$r.squared
+```
+### spruce.lm
+```{r}
+summary(spruce.lm)$r.squared
+```
+
+### Adjusted R-square
+```{r}
+summary(quad.lm)$adj.r.squared
+summary(spruce.lm)$adj.r.squared
+```
+
+The adjusted R-Squared indicates how well the data fits the model. If more variables are added the model improves, R-Squared goes up.
+However, if we add more variables and it weakens the model the adjusted R-Squared decreases.
+
+### Meaning of multiple R-Squared
+The multiple R-Squared just describes how well the data fits the model.
+
+### Model with most variability
+```{r}
+summary(quad.lm)$r.squared
+summary(quad.lm)$adj.r.squared
+summary(spruce.lm)$r.squared
+summary(spruce.lm)$adj.r.squared
+```
+quad.lm explains the most variability in height. Both its R-squared and adjusted R-squared values are greater than those of spruce.lm.
+
+
+### Anova
+```{r}
+anova(spruce.lm)
+anova(quad.lm)
+anova(spruce.lm, quad.lm)
+```
+
+### TSS, MSS, RSS
+```{r}
+height.qfit = fitted(quad.lm)
+
+TSS = with(spruce, sum((Height - mean(Height)) ^ 2))
+TSS
+
+MSS = with(spruce, sum((height.qfit - mean(Height)) ^ 2))
+MSS
+
+RSS = with(spruce, sum((Height - height.qfit) ^ 2))
+RSS
+```
+
+## Task 6
+
+```{r}
+cooks20x(quad.lm, main = "Cook's Distance plot for quad.lm")
+```
+
+" Cook's Distance is a measure of how influential an instance is to the computation of a regression, e.g. if the instance is removed would the estimated coefficients of the underlying model be substantially changed? Because of this, Cook's Distance is generally used to detect outliers in standard, OLS regression." https://www.scikit-yb.org/en/latest/api/regressor/influence.html
+
+### Cook's Distance 
+```{r}
+quad2.lm = lm(Height~BHDiameter + I(BHDiameter ^ 2), data=spruce[-24,])
+summary(quad2.lm)
+```
+
+```{r}
+summary(quad.lm)
+```
+
+The median, min, and max are smaller for quad2.lm. Both R-squared values are larger for quad2.lm
+
+### Conclude
+THe cook's distance plot was accurate in indicating the the 24th datum was significantly impacting the model. By removing the datum, the R-Squared value increased.
+
+## Task 7
+
+### Latex Proof
+$$ \ell_1 : y = \beta_0 + \beta_1x$$
+$$\ell_2 : y = \beta_0 + \delta + (\beta_1 + \beta_2)x_k$$
+$$y_k = \beta_0 + \beta_1x_k = \beta_0 + \delta + (\beta_1 + \beta_2)x_k$$
+$$\beta_0 + \beta_1x_k = \beta_0 + \delta + \beta_1x_k + \beta_2x_k$$
+$$0 = \delta + \beta_2x_k$$
+$$\delta = -\beta_2x_k$$
+$$\ell_2 : y = \beta_0 + \delta + (\beta_1 + \beta_2)x$$
+$$\ell_2 : y = \beta_0 - \beta_2x_k + (\beta_1 + \beta_2)x$$
+$$\ell_2 : y = \beta_0 - \beta_2x_k + \beta_1x + \beta_2x$$
+$$\ell_2 : y = \beta_0 + \beta_1x + \beta_2x - \beta_2x_k$$
+$$\ell_2 : y = \beta_0 + \beta_1x + \beta_2(x - x_k)$$
+$$ y = \beta_0 + \beta_1x + \beta_2(x - x_k)I(x > x_k)$$
+Where $$I()$$ is 1 if $$x > x_k$$ and 0 else.
+
+```{r}
+sp2.df = within(spruce, X <- (BHDiameter - 18) * (BHDiameter > 18))
+sp2.df
+
+lmp = lm(Height~BHDiameter + X, data = sp2.df)
+tmp = summary(lmp)
+names(tmp)
+
+myf = function(x, coef){
+  coef[1] + coef[2] * x + coef[3] * (x - 18) * (x - 18 > 0)
+}
+
+plot(spruce, main="Piecewise regression")
+myf(0, coef= tmp$coefficents[, "Estimate"])
+
+curve(myf(x, coef=tmp$coefficients[, "Estimate"]), add = TRUE, lwd = 2, col = "Blue")
+abline(v = 18)
+text(18, 16, paste("R sq.=", round(tmp$r.squared, 4)))
+```
+
+## Task 8
+```{r}
+library(devtools)
+devtools::install("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/LabPackages")
+library(LabPackages)
+tmp <- LabPackages::myf(0, coef= c(1,2,0.5))
+tmp
+```
