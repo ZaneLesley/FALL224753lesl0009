@@ -4,12 +4,14 @@
 #' @param sigma standard deviation
 #' @param a end point of x
 #' @return (probability, P(X<=a))
+#' @importFrom graphics barplot curve polygon text
 #' @examples
 #' mu <- 10
 #' sigma <- 5
 #' a <- 5
 #' @export
 myncurve <-  function(mu, sigma, a) {
+  x <- NULL
 
 curve(dnorm(x, mean=mu, sd=sigma), xlim = c(mu-3*sigma, mu + 3*sigma),
       ylab="Density", xlab="X", main=paste("Normal Distribution with mu =", mu, "and sigma =", sigma))

@@ -4,11 +4,13 @@ Title: Lab Tools
 Version: 0.1.0
 Author: Zane Lesley
 Maintainer: Zane Lesley <Zanelesley@ou.edu>
-Description: This package creates a tool for doing data analysis for a Lab 4 Exercise
-License: MIT
+Description: This package holds all the packages I made for the class.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
+Config/testthat/edition: 
+Imports: 
+    ggplot2

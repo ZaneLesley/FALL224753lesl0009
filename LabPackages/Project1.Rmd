@@ -1,0 +1,17 @@
+---
+title: "Project1"
+author: "Zane Lesley"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(devtools)
+devtools::install("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753lesl0009/LabPackages") 
+library(LabPackages)
+LabPackages::ntickets(N=400,gamma = 0.02, p = 0.95)
+```
