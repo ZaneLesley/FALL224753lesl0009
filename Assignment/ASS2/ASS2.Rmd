@@ -1,0 +1,411 @@
+---
+title: 'Ass 2'
+author: "Zane Lesley"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, fig.align='center'}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Questions{17 / 17}
+
+## Q 1
+
+### A
+
+$$
+P(A|I) = .9 \\
+P (A\bar{I}) = .1 \\
+P(B|I) = .95 \\
+P(B|\bar{I} = .5
+$$
+
+### B
+
+$$
+P(A|I) \cap P(B|I) = .95\times.9= .885
+$$
+
+### C
+
+$$
+(A|\bar{I}) \cap P(B|\bar{I}) = .2\times.1 = .02
+$$
+
+### D
+
+$$
+P(\sim A | I) = 1 - .9 = .1\\
+P(\sim B | I) = 1 - .95 = .05\\
+P(\sim A | I) \cap P(\sim B | I) = .1 - .05 = .005\\
+1 - .005 = .995
+$$
+
+
+## Q 2
+
+### A
+Note, not totally population, only **user** population
+$$
+P(Positive \mid User) = \frac{50}{100} = .5
+$$
+
+### B
+
+$$
+P(Negative \mid Nonuser) = 1 - P(Positive \mid Nonuser) = 1 - \frac{9}{900} = .995
+$$
+
+### C
+
+Bayes Theorem is as stated:
+$$
+P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
+$$
+
+So in our case:
+$$
+P(User\mid Positive) = \frac{P(Positive \mid User) \cdot P(User)}{P(Positive)}\\
+P(Positive \mid User) = .5\\
+P(User) = .1\\
+$$
+For the Positive, we need to find the probability of both users plus non users being positive against their respective % of the total population they consist of.
+$$
+P(Positive) = (0.5 \times 0.1) + (0.01 \times 0.9) = 0.059\\
+=>
+P(User \mid Positive) = \frac{0.5 \cdot 0.1}{0.059} \approx 0.85
+$$
+
+## Q 3
+
+Essentially, theorem 3.1 just goes over how we can get the total number of combinations from n items. For example, consider
+$$
+\{ a,b \}\\
+\{ c,d,e \}\\
+\{ f,g,h, i \}\\
+$$
+
+If we want the max number of combinations available to us, we can do:
+
+$$
+2 \times 3 \times 4 = 24
+$$
+If we went and arranged the all 3 sets in unique combinations of each other, we would see we would get 24 different combinations.
+
+## Q 4
+Theorem 3.2 states that there are 
+
+$$
+\frac{N!}{(N - n )!}
+$$
+ways to arrange N elements when we take n at a time. If we think about it in two parts, both of which are just different sets of elements from theorem 3.1. The numerator is the total ways we can combine all the elements. The denominator reels us in, and contains us to the amount of positions we are **not** allowed to have. What this will do is cancel out with the terms in the numerator leaving us with a unique set of permutations.
+
+## Q 5
+
+Theorem 3.3 has to do with what I call  essentially we have a body population and we are seeing how many different ways we can arrange the body population into k sets. Again, we start with the numerator being the total amount of combinations we can get (refers back to 3.1). Now the only problem is we need to eliminate redundancy, to do this we can use the denominator to cancel out the amount of combinations (again referring to 3.1) that we get across all the different sub groups. The amount of n1, n2, n3, ... we will have will be equal to k, so for n1, n2, n3, k = 3.
+
+## Q 6
+
+This covers the problem of x choose y, essentially instead of splitting the body population into k sets, we just want to see how many different ways we can arrange the body population of x if we only choose y elements to be included in the final set. The proof of this is very similar to the others, what you notice is the denominator is always being used to eliminate redundancy across 3.2-3.4. It is the same case here. This theorem combines 3.2 and 3.3 redundancy checks where we need to eliminate first the total population redundancy from 3.3, then we can think of it like a 3.2 problem, where we need to eliminate the redundancy we would get from inside the element set itself. You can think of 3.4 as combining the previous 2 theorems together to get the final answer.
+
+## Q 7
+
+### A
+
+$$
+.09 + .3 + .37 + .2 + 0.04 = 1 \space \checkmark
+$$
+
+### B
+
+$$
+P(Y = 3) = .2\\
+P(Y = 4) = .04\\
+=> .2 + .04 = .24
+$$
+
+### C
+
+$$
+P(Y < 2) = .3 + .09 = .39 
+$$
+
+## Q 8
+
+### A
+
+*For the simple things that I did in the last problem, I didn't write out LaTeX as it's the same as the previous problem*
+
+If you add up all the values you get 1 and no negative values, so we pass this.
+
+### B
+
+For this, like in the previous questions C, add up all the values for Y >= 10, you will get **0.145**.
+
+### C
+
+$$
+\mu = E(Y) = \sum_{y} \{y \times P(y) \}
+$$
+This just says multiply each y value by its respective P(y) value gotten from the table, then add them all up. If you do all this you get $\mu = 4.86$. For studying purposes, Zane, think of this as a weighted average.
+
+Next for variance,
+
+$$
+\sigma^2 = Var(Y) = \sum_y \{(y - \mu)^2 \times P(y)\}
+$$
+To break down what this is saying, for each of the y summed, take find the distance between y and the Expected Value, then square it (remove negative values), multiply that by the probability for that y. If you do that you will end up with $Var(Y) = 16.26$
+
+### D
+
+An interval such that [a, b] >= 0.75 can be [0, 6] which sum up to 0.76
+
+## Q 9
+
+### A
+
+$$
+P(Y = 10) = \binom{25}{10} \cdot (0.7)^{10} \cdot (1 - P)^{15}
+$$
+
+```{r}
+prob <- dbinom(10, size = 25, prob = 0.7)
+prob
+```
+
+### B
+
+$$
+P(Y \le 5) = \sum^5_{k=0}P(Y = k)\\
+$$
+```{r}
+prob <- pbinom(5, size = 25, prob = 0.7)
+prob
+```
+
+### C
+
+$$
+\mu = n \cdot p = 25 \cdot 0.7 = 17.5\\
+\sigma = \sqrt{\mu \cdot (1 - p)}\\
+= \sqrt{17.5 \cdot (0.3)} = 2.291287847
+$$
+
+### D
+
+17.5 out of the 25 engineering students are foreign nationals. The standard deviation means that the mean will vary up or down from that 2.291 amount.
+
+## Q 10
+
+### A
+$$
+P(5 \space Trains \space per \space Track) = \frac{50!}{(5!)^{10}} \cdot \frac{1}{10}^{50}
+$$
+
+Explanation: each probability is 1/10, binomial multinomial experiment (for notes page 157) gives us the expression above in an expanded form, all I did was simplify it. (5 trains per track * 10 trains)
+
+### B
+
+```{r}
+prob <- pbinom(1, size=50, prob = 0.1)
+prob
+```
+
+## Q 11
+
+### A
+
+$$
+P(Y = K) = (1 - P)^{k - 1} \cdot p
+$$
+
+### B
+
+$$
+E[Y] = \frac{1}{p}
+$$
+
+### C
+
+You'll get $1 - 1 = 0$ which will just become p.
+
+### D
+
+$$
+P(Y \ge 2) = 1 - P(Y < 2)\\
+=> \space 1 - P(Y = 1)
+= 1 - p
+$$
+
+## Q 12
+
+### A
+
+$$
+E(Y) = \frac{nr}{N}\\
+=> E(Y)=\frac{80}{209}
+$$
+
+### B
+
+$$
+P(Y = k) = \frac{\binom{r}{y} \cdot \binom{N - r}{n - y}}{\binom{N}{n}}\\
+P(Y = 4) = \frac{\binom{8}{4} \cdot \binom{201}{6}}{\binom{209}{10}}
+$$
+
+```{r}
+prob <- dhyper(4, 8, 201, 10)
+prob
+```
+
+## Q 13
+
+### A
+
+$\sigma^2 = \lambda = 0.03$
+
+### B
+
+per the book,
+
+"Characteristics of a Poisson Random Variable\
+1. The experiment consists of counting the number of times Y a particular (rare) event occurs during a given unit of time or in a given area or volume (or weight, distance, or any other unit of measurement).\
+2. The probability that an event occurs in a given unit of time, area, or volume is the same for all the units. Also, units are mutually exclusive.\
+3. The number of events that occur in one unit of time, area, or volume is independent of the number that occur in other units."\
+
+### C
+
+```{r}
+prob <- dpois(0, 0.03)
+prob
+```
+## Q 14
+
+### A
+$$
+\int_0^1 c(2 - y)dy = 1
+$$
+
+solving the integral yields $c = \frac{2}{3}$
+
+### B
+
+
+$$
+\int_0^1 1 \cdot (2 - t)dt
+$$
+
+solving the integral yields $F(y) = \frac{4y}{3}-\frac{y^2}{3}$
+
+Thus the  cumulative distribution for $F(y)$ is $y < 0 = 0\\ y > 1 = 1\\ 0\le y \le 1=\frac{4y}{3}-\frac{y^2}{3}$ 
+
+### C
+
+$F(0.4) = 0.48$
+
+### D
+
+$$
+P(0.1 \le Y \le 0.6) = F(0.6) - F(0.1) \approx 0.55
+$$
+
+## Q 15
+
+### A
+
+$$
+\mu = \int_{-5}^5y \cdot \frac{3}{500}(25 - y^2)dy
+$$
+
+Yields $\mu = 0$
+
+$$
+E(Y^2) = \mu = \int_{-5}^5y^2 \cdot \frac{3}{500}(25 - y^2)dy\\
+\sigma^2 = E(Y^2) - \mu^2 = 10
+$$
+
+Yields $\sigma^2 = 10$
+
+### B
+
+For hours:
+
+$\mu = 0\\ \sigma^2 = \frac{1}{360}$
+
+### C
+
+For seconds:
+
+$\mu = 0\\ \sigma^2 = 36000$
+
+## Q 16
+
+### A
+
+```{r}
+prob <- 1 - pnorm(45, mean = 50, sd = 3.2)
+prob
+```
+
+### B
+
+```{r}
+prob <- pnorm(55, mean = 50, sd = 3.2)
+prob
+```
+
+### C
+
+```{r}
+prob <- pnorm(52, mean = 50, sd = 3.2) - pnorm(51, mean = 50, sd = 3.2)
+prob
+```
+
+## Q 17
+
+### A
+
+```{r}
+prob <- pnorm(700, mean = 605, sd = 185) - pnorm(500, mean = 605, sd = 185)
+prob
+```
+
+### B
+
+```{r}
+prob <- pnorm(500, mean = 605, sd = 185) - pnorm(400, mean = 605, sd = 185)
+prob
+```
+
+### C
+
+```{r}
+prob <- pnorm(850, mean = 605, sd = 185)
+prob
+```
+
+### D
+
+```{r}
+prob <- 1 - pnorm(1000, mean = 605, sd = 185)
+prob
+```
+
+### E
+
+```{r}
+prob <- qnorm(0.9, mean = 605, sd = 185)
+prob
+```
+
+
