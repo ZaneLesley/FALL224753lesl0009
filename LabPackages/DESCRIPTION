@@ -14,3 +14,5 @@ Suggests:
 Config/testthat/edition: 
 Imports: 
     ggplot2
+Depends: 
+    R (>= 2.10)
