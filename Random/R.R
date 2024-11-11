@@ -1,15 +1,21 @@
-setwd("C:/Users/Zanel/Desktop/FALL 24 STATS/FALL224753lesl0009/Lab/Lab1")
-ddt <- read.csv("DDT-1.csv")
+ddt <- read.csv("EPAGAS.CSV")
+mpg <- ddt$MPG
+z = (mpg - mean(mpg)) / sd(mpg)
+mpg[abs(z)>=2 & abs(z)<=3]
+mpg[abs(z)>3]
 
-library(dplyr)
+length(mpg[abs(z) < 3]) / length(mpg)
 
-##ddt %>% filter(SPECIES == "SMBUFFALO") %>% summarize(mean_WEIGHT = mean(WEIGHT))
+library(ggplot2)
+ggplot(ddt, aes(x = z)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(x = "z score", y = "Frequency")
 
-with(ddt, mean(ddt[SPECIES == "SMBUFFALO",]$WEIGHT))
+pbinom(q = 1, size = 15, prob=0.4)
+1 - ppois(q = 3, lambda = 2)
 
-with(ddt, mean(ddt[SPECIES == "CCATFISH" & DDT > 33,]$LENGTH))
 
-with(ddt, sd(ddt[SPECIES == "LMBASS" | SPECIES == "SMBUFFALO",]$DDT))
-
-table(with(ddt, ddt$LENGTH > 40 & ddt$WEIGHT > 1000))
-
+birthday <- function(k){
+  1 - exp(lchoose(365,k) + lfactorial(k) - k +1)
+            }
+birthday(k = 20)
