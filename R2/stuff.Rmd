@@ -1,0 +1,803 @@
+---
+title: 'Stuff'
+author: "Zane Lesley"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, fig.align='center'}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# When to use each dpqr
+
+## Normal Distribution
+
+### dnorm
+
+`dnorm(x, mean, sd)`
+
+Purpose: Computes the probability density function (PDF) at a given value x.
+
+Use case: Use when you need the relative likelihood of observing a specific value in a normal distribution. (Not a probability; it’s a density.)
+
+Example: What is the height of the bell curve at x = 0 for a standard normal distribution?
+`dnorm(0, mean = 0, sd = 1)  # PDF at x = 0`
+
+### pnorm
+
+`pnorm(q, mean, sd)`
+
+Purpose: Computes the cumulative distribution function (CDF) at a value q.
+
+Use case: Use when you want to find the probability that a random variable is less than or equal to q.
+
+Example: What is the probability of observing a value less than or equal to 1.96 in a standard normal distribution?
+
+`pnorm(1.96, mean = 0, sd = 1)  # Probability up to 1.96`
+
+### qnorm
+
+`qnorm(p, mean, sd)`
+
+Purpose: Computes the quantile (inverse of CDF) for a probability p.
+
+Use case: Use when you need the value of x for a given cumulative probability.
+
+Example: What z-score corresponds to the 97.5th percentile of the standard normal distribution?
+
+`qnorm(0.975, mean = 0, sd = 1)  # 97.5th percentile`
+
+### rnorm
+
+`rnorm(n, mean, sd)`
+
+Purpose: Generates n random numbers from a normal distribution.
+
+Use case: Use for simulations or to generate synthetic data.
+
+Example: Generate 10 random values from a normal distribution with a mean of 10 and a standard deviation of 2.
+
+`rnorm(10, mean = 10, sd = 2)`
+
+## Bionomial Distribution
+
+### dbinom
+
+`dbinom(x, size, prob)`
+
+Purpose: Computes the probability mass function (PMF) at x.
+
+Use case: Use to find the probability of observing exactly x successes in n trials.
+
+Example: What is the probability of getting exactly 3 heads in 10 coin flips, where p(head) = 0.5?
+
+`dbinom(3, size = 10, prob = 0.5)`
+
+
+### pbinom
+
+`pbinom(q, size, prob)`
+
+Purpose: Computes the cumulative probability up to q successes.
+
+Use case: Use when you want the probability of observing at most q successes.
+
+Example: What is the probability of getting 3 or fewer heads in 10 coin flips?
+
+`pbinom(3, size = 10, prob = 0.5)`
+
+### qbinom
+
+`qbinom(p, size, prob)`
+
+Purpose: Computes the quantile for a cumulative probability p.
+
+Use case: Use when you need the number of successes corresponding to a given cumulative probability.
+
+Example: What is the number of heads corresponding to the 80th percentile in 10 coin flips?
+
+`qbinom(0.8, size = 10, prob = 0.5)`
+
+
+### rbinom
+
+`rbinom(n, size, prob)`
+
+Purpose: Generates n random numbers from a binomial distribution.
+
+Use case: Use to simulate outcomes of a binomial experiment.
+
+Example: Simulate 10 experiments of flipping a coin 10 times, where p(head) = 0.5.
+
+`rbinom(10, size = 10, prob = 0.5)`
+
+## Poisson Distribution
+
+### dpois
+
+`dpois(x, lambda)`
+
+Purpose: Computes the probability mass function (PMF) at x.
+
+Use case: Use to find the probability of observing exactly x events in a fixed interval.
+
+Example: What is the probability of observing exactly 5 events when the average rate is 3 per interval?
+
+`dpois(5, lambda = 3)`
+
+
+### ppois
+
+`ppois(q, lambda)`
+
+Purpose: Computes the cumulative probability up to q events.
+
+Use case: Use to find the probability of observing at most q events.
+
+Example: What is the probability of observing 5 or fewer events when the average rate is 3 per interval?
+
+`ppois(5, lambda = 3)`
+
+### qpois
+
+`qpois(p, lambda)`
+
+Purpose: Computes the quantile for a cumulative probability p.
+
+Use case: Use when you need the number of events corresponding to a given cumulative probability.
+
+Example: What number of events corresponds to the 90th percentile when the average rate is 3?
+
+`qpois(0.9, lambda = 3)`
+
+
+
+
+
+
+
+# E(X), V(X), E(X,Y)
+
+## Bernoulli Distribution
+
+Parameters: p (probability of success) \
+Support: x=0 x=0 or x=1 x=1 \
+Expected Value: \
+$E(X)=p$ \
+Variance: \
+$V(X)=p(1−p)$ \
+
+## Binomial Distribution
+
+Parameters: n (number of trials), pp (probability of success) \
+Support: $x=0,1,2,…,n$ \
+Expected Value: \
+$E(X)=np$ \
+Variance: \
+$V(X)=np(1−p)$ \
+
+## Poisson Distribution
+
+Parameters: $λ>0$ (average rate) \
+Support:$x=0,1,2,…x$ \
+Expected Value: \
+$E(X)=λ$ \
+Variance: \
+$V(X)=λ$ \
+
+## Normal (Gaussian) Distribution
+
+Parameters: $μ$ (mean), $σ^2$ (variance) \
+Support: x∈(−∞,∞)x∈(−∞,∞) \
+Expected Value: \
+$E(X)=μ$ \
+Variance: \
+$V(X)=σ^2$ \
+
+## Gamma Distribution
+
+Parameters: $α > 0$ (shape), $β>0$ (rate) \
+Expected Value: \
+$E(X)=\frac{\alpha}{\beta}$ \
+Variance: \
+$V(X)= \frac{\alpha}{\beta^2}$ \
+
+## Chi-Squared Distribution
+
+Parameters: $k>0$ (degrees of freedom) \
+Support: $x≥0$ \
+Expected Value: \
+$E(X)=k$ \
+Variance: \
+$V(X)=2k$ \
+
+## E(X, Y) and Covariance
+
+If you're interested in the expected value and variance involving two random variables X and Y, here are the key formulas: \
+
+Expected Value of the Sum: \
+$E(X+Y)=E(X)+E(Y)$ \
+Variance of the Sum: \
+$V(X+Y)=V(X)+V(Y)+2Cov(X,Y)$ \
+Covariance: \
+$Cov(X,Y)=E(XY)−E(X)E(Y)$ \
+If X and Y are independent: \
+$Cov⁡(X,Y)=0$ \
+$ V(X+Y)=V(X)+V(Y)$ \
+$ E(XY)=E(X)E(Y)$ \
+
+
+# Method of Moments
+
+## Steps:
+
+Compute the sample moments (e.g., sample mean, sample variance).
+Set them equal to the theoretical moments of the distribution.
+Solve the equations for the parameters.
+
+# Unbiased Estimator
+
+## definitions
+
+An estimator $\hat{\theta}$ of a parameter $\theta$ is unbiased if $E(\hat{\theta}) = \theta$. If not the estimator is biased.
+
+The difference between $E(\hat{\theta}) - \theta$ is the bias.
+
+## MoM example
+
+$$\section*{Solution to Theoretical Exercises 7.8}
+
+Given a binomial experiment with $n$ trials resulting in Bernoulli observations $y_1, y_2, \ldots, y_n$, where:
+
+\[
+y_i =
+\begin{cases}
+1 & \text{if the $i$th trial was a success}, \\
+0 & \text{if not},
+\end{cases}
+\]
+
+and
+\[
+P(y_i = 1) = p, \quad P(y_i = 0) = 1 - p,
+\]
+let $Y = \sum_{i=1}^n y_i$ be the number of successes in $n$ trials.
+
+\subsection*{(a) Moment Estimator of $p$}
+The sample mean $\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i$ is an unbiased estimator for $E(y_i)$. Since $E(y_i) = p$, the moment estimator of $p$ is:
+\[
+\hat{p}_{\text{moment}} = \bar{y} = \frac{1}{n} \sum_{i=1}^n y_i.
+\]
+
+\subsection*{(b) Is the Moment Estimator Unbiased?}
+To check if $\hat{p}_{\text{moment}}$ is unbiased:
+\[
+E(\hat{p}_{\text{moment}}) = E\left(\frac{1}{n} \sum_{i=1}^n y_i\right) = \frac{1}{n} \sum_{i=1}^n E(y_i).
+\]
+Since $E(y_i) = p$, we have:
+\[
+E(\hat{p}_{\text{moment}}) = \frac{1}{n} \cdot n \cdot p = p.
+\]
+Thus, the moment estimator $\hat{p}_{\text{moment}}$ is unbiased.
+
+\subsection*{(c) Maximum Likelihood Estimator of $p$}
+The likelihood function for the $n$ Bernoulli trials is:
+\[
+L(p) = p^Y (1-p)^{n-Y},
+\]
+where $Y = \sum_{i=1}^n y_i$. Taking the log-likelihood:
+\[
+\ell(p) = \ln L(p) = Y \ln p + (n - Y) \ln(1-p).
+\]
+Differentiating with respect to $p$:
+\[
+\frac{d\ell(p)}{dp} = \frac{Y}{p} - \frac{n-Y}{1-p}.
+\]
+Setting $\frac{d\ell(p)}{dp} = 0$, we solve:
+\[
+\frac{Y}{p} = \frac{n-Y}{1-p}.
+\]
+Cross-multiplying:
+\[
+Y(1-p) = p(n-Y).
+\]
+Simplifying:
+\[
+Y - Yp = np - Yp \quad \Rightarrow \quad Y = np \quad \Rightarrow \quad \hat{p}_{\text{MLE}} = \frac{Y}{n}.
+\]
+
+\subsection*{(d) Is the Maximum Likelihood Estimator Unbiased?}
+To check if $\hat{p}_{\text{MLE}}$ is unbiased:
+\[
+E(\hat{p}_{\text{MLE}}) = E\left(\frac{Y}{n}\right) = \frac{1}{n} E(Y).
+\]
+Since $Y \sim \text{Binomial}(n, p)$, we know $E(Y) = np$. Thus:
+\[
+E(\hat{p}_{\text{MLE}}) = \frac{1}{n} \cdot np = p.
+\]
+Therefore, the maximum likelihood estimator $\hat{p}_{\text{MLE}}$ is unbiased.
+$$
+
+## MoM Example 2
+
+$$
+
+\section*{Problem 7.9}
+
+Let $y_1, y_2, \ldots, y_n$ be a random sample of $n$ observations from a Poisson distribution with probability function:
+\[
+P(y) = \frac{e^{-\lambda} \lambda^y}{y!}, \quad y = 0, 1, 2, \ldots
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the maximum likelihood estimator of $\lambda$.
+    \item[(b)] Is the maximum likelihood estimator unbiased?
+\end{enumerate}
+
+\subsection*{Solution}
+
+\subsection*{(a) Maximum Likelihood Estimator of $\lambda$}
+
+The likelihood function for $n$ independent observations is:
+\[
+L(\lambda) = \prod_{i=1}^n \frac{e^{-\lambda} \lambda^{y_i}}{y_i!}.
+\]
+
+Simplify the likelihood function by combining terms:
+\[
+L(\lambda) = e^{-n\lambda} \lambda^{\sum_{i=1}^n y_i} \prod_{i=1}^n \frac{1}{y_i!}.
+\]
+
+The log-likelihood function is:
+\[
+\ell(\lambda) = \ln L(\lambda) = -n\lambda + \left(\sum_{i=1}^n y_i \right)\ln \lambda - \sum_{i=1}^n \ln(y_i!).
+\]
+
+To find the maximum likelihood estimator (MLE), take the derivative of $\ell(\lambda)$ with respect to $\lambda$:
+\[
+\frac{d\ell(\lambda)}{d\lambda} = -n + \frac{\sum_{i=1}^n y_i}{\lambda}.
+\]
+
+Set the derivative equal to zero:
+\[
+-n + \frac{\sum_{i=1}^n y_i}{\lambda} = 0.
+\]
+
+Solve for $\lambda$:
+\[
+\hat{\lambda} = \frac{\sum_{i=1}^n y_i}{n}.
+\]
+
+Thus, the MLE of $\lambda$ is:
+\[
+\hat{\lambda}_{\text{MLE}} = \bar{y},
+\]
+where $\bar{y}$ is the sample mean.
+
+\subsection*{(b) Is the Maximum Likelihood Estimator Unbiased?}
+
+To check if $\hat{\lambda}_{\text{MLE}}$ is unbiased, compute its expected value:
+\[
+E(\hat{\lambda}_{\text{MLE}}) = E\left(\frac{\sum_{i=1}^n y_i}{n}\right) = \frac{1}{n} E\left(\sum_{i=1}^n y_i\right).
+\]
+
+Since $y_i \sim \text{Poisson}(\lambda)$, we know $E(y_i) = \lambda$. Therefore:
+\[
+E\left(\sum_{i=1}^n y_i\right) = n\lambda,
+\]
+and
+\[
+E(\hat{\lambda}_{\text{MLE}}) = \frac{1}{n} \cdot n\lambda = \lambda.
+\]
+
+Thus, the MLE $\hat{\lambda}_{\text{MLE}}$ is unbiased.$$
+
+## MoM Example 3
+
+$$
+\section*{Problem 7.10}
+
+Let $y_1, y_2, \ldots, y_n$ be a random sample of observations on a random variable $Y$, where $f(y)$ is a gamma density function with $\alpha = 2$ and unknown $\beta$. The density function is:
+\[
+f(y) =
+\begin{cases}
+\frac{y e^{-y/\beta}}{\beta^2}, & \text{if } y > 0, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the maximum likelihood estimator of $\beta$.
+    \item[(b)] Find $E(\hat{\beta})$ and $V(\hat{\beta})$.
+\end{enumerate}
+
+\subsection*{Solution}
+
+\subsection*{(a) Maximum Likelihood Estimator of $\beta$}
+
+The likelihood function for $n$ independent observations is:
+\[
+L(\beta) = \prod_{i=1}^n \frac{y_i e^{-y_i / \beta}}{\beta^2} = \frac{1}{\beta^{2n}} \prod_{i=1}^n y_i e^{-\sum_{i=1}^n \frac{y_i}{\beta}}.
+\]
+
+Taking the natural logarithm of the likelihood function, the log-likelihood function becomes:
+\[
+\ell(\beta) = -2n \ln \beta + \sum_{i=1}^n \ln y_i - \frac{1}{\beta} \sum_{i=1}^n y_i.
+\]
+
+To find the maximum likelihood estimator, differentiate $\ell(\beta)$ with respect to $\beta$:
+\[
+\frac{d\ell(\beta)}{d\beta} = -\frac{2n}{\beta} + \frac{1}{\beta^2} \sum_{i=1}^n y_i.
+\]
+
+Set the derivative equal to zero:
+\[
+-\frac{2n}{\beta} + \frac{\sum_{i=1}^n y_i}{\beta^2} = 0.
+\]
+
+Multiply through by $\beta^2$ to eliminate the denominator:
+\[
+-2n\beta + \sum_{i=1}^n y_i = 0.
+\]
+
+Solve for $\beta$:
+\[
+\hat{\beta} = \frac{\sum_{i=1}^n y_i}{2n}.
+\]
+
+Thus, the maximum likelihood estimator of $\beta$ is:
+\[
+\hat{\beta}_{\text{MLE}} = \frac{\bar{y}}{2},
+\]
+where $\bar{y}$ is the sample mean.
+
+\subsection*{(b) Expected Value and Variance of $\hat{\beta}$}
+
+Since $\hat{\beta} = \frac{\bar{y}}{2}$, we need the expected value and variance of $\hat{\beta}$. From the properties of a gamma distribution:
+- For a gamma distribution with shape parameter $\alpha = 2$ and scale parameter $\beta$, the mean is $E(Y) = 2\beta$, and the variance is $V(Y) = 2\beta^2$.
+
+The sample mean $\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i$ has:
+\[
+E(\bar{y}) = E(Y) = 2\beta, \quad V(\bar{y}) = \frac{V(Y)}{n} = \frac{2\beta^2}{n}.
+\]
+
+Now calculate $E(\hat{\beta})$ and $V(\hat{\beta})$:
+\[
+E(\hat{\beta}) = E\left(\frac{\bar{y}}{2}\right) = \frac{E(\bar{y})}{2} = \frac{2\beta}{2} = \beta.
+\]
+
+\[
+V(\hat{\beta}) = V\left(\frac{\bar{y}}{2}\right) = \left(\frac{1}{2}\right)^2 V(\bar{y}) = \frac{1}{4} \cdot \frac{2\beta^2}{n} = \frac{\beta^2}{2n}.
+\]
+
+Thus:
+\[
+E(\hat{\beta}) = \beta, \quad V(\hat{\beta}) = \frac{\beta^2}{2n}.
+\]
+$$
+
+## MoM Example 4
+
+$$
+\section*{Problem 7.11}
+
+Refer to Exercise 7.10. 
+
+\begin{enumerate}
+    \item[(a)] Find the moment estimator of $\beta$.
+    \item[(b)] Find $E(\hat{\beta})$ and $V(\hat{\beta})$.
+\end{enumerate}
+
+\subsection*{Solution}
+
+\subsection*{(a) Moment Estimator of $\beta$}
+
+From Exercise 7.10, the random variable $Y$ follows a gamma distribution with shape parameter $\alpha = 2$ and scale parameter $\beta$. The mean of $Y$ is:
+\[
+E(Y) = \alpha \beta = 2\beta.
+\]
+
+The first moment estimator matches the sample mean $\bar{y}$ with the theoretical mean:
+\[
+\bar{y} = E(Y) = 2\beta.
+\]
+
+Solving for $\beta$:
+\[
+\hat{\beta}_{\text{moment}} = \frac{\bar{y}}{2}.
+\]
+
+Thus, the moment estimator of $\beta$ is:
+\[
+\hat{\beta}_{\text{moment}} = \frac{\bar{y}}{2}.
+\]
+
+\subsection*{(b) Expected Value and Variance of $\hat{\beta}$}
+
+From the moment estimator $\hat{\beta}_{\text{moment}} = \frac{\bar{y}}{2}$:
+\[
+E(\hat{\beta}) = E\left(\frac{\bar{y}}{2}\right) = \frac{E(\bar{y})}{2}.
+\]
+
+The expected value of the sample mean $\bar{y}$ is:
+\[
+E(\bar{y}) = E(Y) = 2\beta.
+\]
+
+Substituting this into the equation:
+\[
+E(\hat{\beta}) = \frac{2\beta}{2} = \beta.
+\]
+
+Thus, the moment estimator $\hat{\beta}_{\text{moment}}$ is unbiased.
+
+To find the variance:
+\[
+V(\hat{\beta}) = V\left(\frac{\bar{y}}{2}\right) = \left(\frac{1}{2}\right)^2 V(\bar{y}).
+\]
+
+The variance of the sample mean $\bar{y}$ is:
+\[
+V(\bar{y}) = \frac{V(Y)}{n},
+\]
+where \(V(Y) = \alpha \beta^2 = 2\beta^2\) for a gamma distribution with $\alpha = 2$ and scale parameter $\beta$.
+
+Thus:
+\[
+V(\bar{y}) = \frac{2\beta^2}{n}.
+\]
+
+Substitute into the equation for $V(\hat{\beta})$:
+\[
+V(\hat{\beta}) = \left(\frac{1}{2}\right)^2 \cdot \frac{2\beta^2}{n} = \frac{\beta^2}{2n}.
+\]
+
+\subsection*{Final Results}
+\[
+E(\hat{\beta}) = \beta, \quad V(\hat{\beta}) = \frac{\beta^2}{2n}.
+\]
+$$
+
+## MoM Example 5
+
+$$
+\section*{Problem 7.12}
+
+Let $y_1, y_2, \ldots, y_n$ be a random sample of $n$ observations from a normal distribution with mean $0$ and unknown variance $\sigma^2$. Find the maximum likelihood estimator (MLE) of $\sigma^2$.
+
+\subsection*{Solution}
+
+\subsection*{Likelihood Function}
+
+The probability density function of a normal distribution with mean $0$ and variance $\sigma^2$ is:
+\[
+f(y_i; \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{y_i^2}{2\sigma^2}\right).
+\]
+
+The likelihood function for $n$ independent observations is:
+\[
+L(\sigma^2) = \prod_{i=1}^n f(y_i; \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{y_i^2}{2\sigma^2}\right).
+\]
+
+Simplify the likelihood function:
+\[
+L(\sigma^2) = \frac{1}{(2\pi\sigma^2)^{n/2}} \exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n y_i^2\right).
+\]
+
+\subsection*{Log-Likelihood Function}
+
+Taking the natural logarithm of the likelihood function:
+\[
+\ell(\sigma^2) = \ln L(\sigma^2) = -\frac{n}{2} \ln(2\pi) - \frac{n}{2} \ln(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^n y_i^2.
+\]
+
+\subsection*{Finding the Maximum Likelihood Estimator}
+
+To find the MLE of $\sigma^2$, take the derivative of $\ell(\sigma^2)$ with respect to $\sigma^2$:
+\[
+\frac{d\ell(\sigma^2)}{d\sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n y_i^2.
+\]
+
+Set the derivative equal to zero:
+\[
+-\frac{n}{2\sigma^2} + \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n y_i^2 = 0.
+\]
+
+Multiply through by $2(\sigma^2)^2$ to eliminate the fractions:
+\[
+-n\sigma^2 + \sum_{i=1}^n y_i^2 = 0.
+\]
+
+Solve for $\sigma^2$:
+\[
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n y_i^2.
+\]
+
+\subsection*{Final Answer}
+
+The maximum likelihood estimator of $\sigma^2$ is:
+\[
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n y_i^2.
+\]
+$$
+
+## MoM Example 6
+
+$$
+\section*{Problem 7.13}
+
+Let $y_1, y_2, \ldots, y_n$ be a random sample of $n$ observations from an exponential distribution with density:
+\[
+f(y) =
+\begin{cases}
+\frac{1}{\beta} e^{-y/\beta}, & y > 0, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\begin{enumerate}
+    \item[(a)] Find the moment estimator of $\beta$.
+    \item[(b)] Is the moment estimator unbiased?
+    \item[(c)] Find $V(\hat{\beta})$.
+\end{enumerate}
+
+\subsection*{Solution}
+
+\subsection*{(a) Moment Estimator of $\beta$}
+
+The mean of the exponential distribution is:
+\[
+E(Y) = \beta.
+\]
+
+The moment estimator is obtained by equating the sample mean $\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i$ to the theoretical mean:
+\[
+\bar{y} = \beta.
+\]
+
+Thus, the moment estimator of $\beta$ is:
+\[
+\hat{\beta}_{\text{moment}} = \bar{y}.
+\]
+
+\subsection*{(b) Is the Moment Estimator Unbiased?}
+
+To check if $\hat{\beta}_{\text{moment}}$ is unbiased, compute its expected value:
+\[
+E(\hat{\beta}_{\text{moment}}) = E(\bar{y}) = E\left(\frac{1}{n} \sum_{i=1}^n y_i\right).
+\]
+
+Since $y_i$ are independent and identically distributed, the expectation of the sample mean is:
+\[
+E(\bar{y}) = \frac{1}{n} \sum_{i=1}^n E(y_i) = \frac{1}{n} \cdot n \cdot \beta = \beta.
+\]
+
+Thus, the moment estimator $\hat{\beta}_{\text{moment}}$ is unbiased.
+
+\subsection*{(c) Variance of $\hat{\beta}$}
+
+The variance of the sample mean $\bar{y}$ is:
+\[
+V(\hat{\beta}_{\text{moment}}) = V(\bar{y}) = \frac{1}{n^2} \sum_{i=1}^n V(y_i).
+\]
+
+Since $y_i$ are independent and identically distributed, the variance of $y_i$ is:
+\[
+V(y_i) = \beta^2.
+\]
+
+Thus:
+\[
+V(\bar{y}) = \frac{1}{n^2} \cdot n \cdot \beta^2 = \frac{\beta^2}{n}.
+\]
+
+Therefore:
+\[
+V(\hat{\beta}_{\text{moment}}) = \frac{\beta^2}{n}.
+\]
+
+\subsection*{Final Results}
+\begin{enumerate}
+    \item[(a)] The moment estimator of $\beta$ is:
+    \[
+    \hat{\beta}_{\text{moment}} = \bar{y}.
+    \]
+    \item[(b)] The moment estimator $\hat{\beta}_{\text{moment}}$ is unbiased.
+    \item[(c)] The variance of $\hat{\beta}_{\text{moment}}$ is:
+    \[
+    V(\hat{\beta}_{\text{moment}}) = \frac{\beta^2}{n}.
+    \]
+\end{enumerate}
+$$
+
+# Formula to find L or U using R
+
+## Problem
+
+$$
+\section*{Question}
+Suppose we take the following sample from a Normal population:
+
+\[
+y = \{17.7, 19.3, 6.3, 8.7, 12.1, 13.9, 7.2, 21.5, 12.3, 10.3, 3.6, 9.1, 10.3, 1.8, 14.1, 7.2, 27.8, -7.2, 11.9, 8.6, 13.3, 14.7, 2.4, -4.8, 10.9, 9.7, 12.6, -1.6, 10.2, -0.9\}
+\]
+
+The sample size is \( n = 30 \). Suppose a 95\% confidence interval for \( \sigma^2 \) is \( (L, U) \), and the formula for the confidence interval is:
+
+\[
+\left( \frac{(n-1)s^2}{\chi^2_{1-\alpha/2}}, \frac{(n-1)s^2}{\chi^2_{\alpha/2}} \right)
+\]
+
+Find \( L \) and \( U \) to 4 decimal places and submit your answers below.
+
+\section*{Solution}
+We use the given formula for the confidence interval for the population variance \( \sigma^2 \):
+
+\[
+L = \frac{(n-1)s^2}{\chi^2_{1-\alpha/2}}, \quad U = \frac{(n-1)s^2}{\chi^2_{\alpha/2}}
+\]
+
+where:
+\begin{itemize}
+    \item \( n = 30 \)
+    \item \( s^2 \) is the sample variance
+    \item \( \alpha = 0.05 \), giving a 95\% confidence level
+    \item \( \chi^2_{1-\alpha/2} \) and \( \chi^2_{\alpha/2} \) are the critical values of the chi-square distribution with \( n-1 = 29 \) degrees of freedom
+\end{itemize}
+
+First, compute the sample variance:
+\[
+s^2 = 99.7072
+\]
+
+Next, calculate the critical values:
+\[
+\chi^2_{1-\alpha/2} = \chi^2_{0.975} = 45.7223, \quad \chi^2_{\alpha/2} = \chi^2_{0.025} = 16.0471
+\]
+
+Finally, calculate \( L \) and \( U \):
+\[
+L = \frac{(n-1)s^2}{\chi^2_{1-\alpha/2}} = \frac{29 \cdot 99.7072}{45.7223} = 35.8571
+\]
+\[
+U = \frac{(n-1)s^2}{\chi^2_{\alpha/2}} = \frac{29 \cdot 99.7072}{16.0471} = 102.1661
+\]
+
+Thus, the 95\% confidence interval for \( \sigma^2 \) is:
+\[
+(L, U) = (35.8571, 102.1661)
+\]
+$$
+
+## Code 
+
+```{r}
+# Given data
+y <- c(17.7, 19.3, 6.3, 8.7, 12.1, 13.9, 7.2, 21.5, 12.3, 10.3, 3.6, 
+       9.1, 10.3, 1.8, 14.1, 7.2, 27.8, -7.2, 11.9, 8.6, 13.3, 14.7, 
+       2.4, -4.8, 10.9, 9.7, 12.6, -1.6, 10.2, -0.9)
+
+n <- length(y)   # Sample size
+s_squared <- var(y)  # Sample variance (unbiased estimator)
+alpha <- 0.05  # Confidence level
+
+# Degrees of freedom
+df <- n - 1
+
+# Chi-square critical values
+chi_sq_lower <- qchisq(alpha / 2, df)
+chi_sq_upper <- qchisq(1 - alpha / 2, df)
+
+# Confidence interval for variance
+L <- ((n - 1) * s_squared) / chi_sq_upper
+U <- ((n - 1) * s_squared) / chi_sq_lower
+```

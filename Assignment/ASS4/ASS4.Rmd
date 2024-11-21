@@ -1,0 +1,340 @@
+---
+title: 'Ass 4'
+author: "Zane Lesley"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, fig.align='center'}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Questions{10 / 10}
+
+## Q1
+```{r}
+nzbirds <- read.csv("NZBIRDS.csv")
+set.seed(0)
+sample <- nzbirds[sample(1:nrow(nzbirds), 35) ,]
+sample
+```
+
+### b
+```{r}
+mean(sample$Body.Mass)
+sd(sample$Body.Mass)
+t.test(sample$Body.Mass, conf.level = 0.95)
+```
+### c
+We are 95% confident that the true mean of the 116 bird's body mass in grams lies in the interval produced in part b.
+
+### d
+Yes, the true mean (9113) is encapsulated in the interval we have. This is because we took a random sample of the data, it is very likely that the mean would be in there.
+
+### e
+```{r}
+mean(sample$Egg.Length)
+sd(sample$Egg.Length)
+t.test(sample$Egg.Length, conf.level = 0.95)
+```
+Again, we see that the true mean (61.06) is within the range that we got. The explanations for both c and d are essentially the same as previous questions.
+
+### f
+```{r}
+flightless <- c(21, 7)
+total <- c(38, 78)
+prop.test(flightless, total, conf.level = 0.95)
+```
+### g
+Yes, the interval I got supports the theory. There is enough variance between the two to support the idea.
+
+## Q2
+
+### a
+```{r}
+mean <- 1312
+sd <- 422
+n <- 100
+
+mean2 <- 1352
+sd2 <- 271
+n2 <- 47
+
+southern_pine <- rnorm(n, mean, sd)
+ponderosa_pine <- rnorm(n2, mean2, sd2)
+
+t.test(southern_pine, ponderosa_pine, var.equal = FALSE, conf.level = 0.9)
+```
+
+### b
+```{r}
+var.test(southern_pine, ponderosa_pine, conf.level = .9)
+```
+
+Yes with a p-value of 0.09, we can say that this is statistically significant.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Q3
+$$ Z = \frac{y}{\sigma} \Rightarrow Z ~ N(0,1) \\
+Z^2 = (\frac{y}{\sigma})^2 = \frac{y^2}{\sigma^2} \\
+$$
+
+This will have a degree of freedom of 1 by def of standard normal variable.
+
+### b
+$$\frac{y^2}{\sigma^2} \sim \chi^2_1 \\
+\chi^2_{1,0.025} \leq \frac{y^2}{\sigma^2} \leq \chi^2_{1,0.975} \\
+\frac{y^2}{\chi^2_{1,0.975}} \leq \sigma^2 \leq \frac{y^2}{\chi^2_{1,0.025}} \\
+(\frac{y^2}{\chi^2_{1,0.975}}, \frac{y^2}{\chi^2_{1,0.025}})$$
+## Q4
+
+### a
+$$H_0 : \mu = 2 \\
+H_a : \mu \neq 2$$
+
+### b
+```{r}
+roughpipe <- read.csv("ROUGHPIPE.csv")
+t.test(roughpipe$ROUGH, mu = 2, conf.level = 0.9)
+```
+
+### c
+```{r}
+qt(1 - 0.05 / 2, df = 19)
+```
+
+t does not fall within the interval +- 2.093, so we fail the hypothesis.
+
+### d
+with the p value being statistically significant and the t value being outside the reject region we fail to reject the null hypothesis. Meaning there is not 
+is not enough to conlcude that the mean surface roughness differs from 2 micrometers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Q5
+```{r}
+lakes <- read.csv("WISCLAKES.csv")
+t.test(x = lakes$DOC, mu = 15, conf.level = 0.9)
+
+qt(1 - 0.1 / 2, 25 - 1)
+```
+
+### b 
+The answer to this question is 0.1212 as seen in the 8.28 video guide on the canvas page. You find this by running the 
+$$t = \frac{\bar{y} - \mu_0}{\frac{s}{\sqrt{n}}} $$
+Calculation (again, shown in the notes don't see a reason to copy it in latex.)
+
+## Q6
+
+```{r}
+orchard <- read.csv("ORCHARD.csv")
+foggy <- orchard$RATIO[orchard$CONDITION == "FOG"]
+clear <- orchard$RATIO[orchard$CONDITION == "CLEAR"]
+
+t.test(foggy, clear, var.equal = TRUE, conf.level = 0.95)
+```
+## Q7
+
+```{r}
+gas <- read.csv("GASTURBINE.csv")
+
+traditional<- gas$HEATRATE[gas$ENGINE == "Traditional"]
+aeroderiv<- gas$HEATRATE[gas$ENGINE == "Aeroderiv"]
+advanced <- gas$HEATRATE[gas$ENGINE == "Advanced"]
+
+var.test(traditional, aeroderiv)
+```
+
+This shows that the variances of the heat rates for trad and aero are not equal.
+
+### b
+```{r}
+var.test(advanced, aeroderiv)
+```
+this shows that the advanced vs aero are also not equal. Both are gotten from the p values being < 0.05.
+
+## Q8
+### a
+$$ H_0 : \frac{\sigma^2_1}{\sigma^2_2} = 1 \\
+H_a : \frac{\sigma^2_1}{\sigma^2_2} \neq 1
+$$
+
+
+### b and c
+```{r}
+ants <- read.csv("GOBIANTS.csv")
+
+var.test(ants$Region=="Dry Steppe", ants$Region=="Gobi Desert")
+
+qf(0.05 / 2, 4, 5)
+qf(1 - 0.05 / 2, 4, 5)
+```
+
+### d
+```{r}
+t.test(ants$Region=="Dry Steppe", ants$Region=="Gobi Desert", var.equal=TRUE)
+```
+
+### e
+
+We have no evidence to suggest that the two sites influence each other in any real statistical way. We derive no evidence that the mean number is different between the two regions. The T-test is valid due to P > 0.05.
+
+### f
+
+Independence, normality, equality of variance.
+
+## Q9
+
+```{r}
+thruput <- read.csv("THRUPUT.csv")
+
+t.test(thruput$HUMAN, thruput$AUTO, paired = TRUE)
+```
+Since p < 0.05 we reject $H_0$. This means that the differ statistically significant between the human and auto throughput. This means the automated system is probably more efficient.
+
+## Q 10
+```{r}
+########### bootstrap function ##################
+
+myboot <- function(iter = 10000, x, fun = "mean", alpha = 0.05, ...) {
+  fun <- match.fun(fun)  # Resolve the function
+  n <- length(x)  # Sample size
+  
+  y <- sample(x, n * iter, replace = TRUE)
+  rs.mat <- matrix(y, nrow = n, ncol = iter, byrow = TRUE)
+  xstat <- apply(rs.mat, 2, fun)
+  ci <- quantile(xstat, c(alpha / 2, 1 - alpha / 2))
+  
+  theoretical_ci <- mean(x) + c(-1, 1) * qt(1 - alpha / 2, df = n - 1) * sd(x) / sqrt(n)
+  para <- hist(xstat, breaks = 9 ,freq = FALSE, las = 1,
+               main = paste("Histogram of Bootstrap Sample Statistics",
+                            "\nalpha = ", alpha, " iter = ", iter, sep = ""),
+               col=cm.colors(3), ...)
+  
+  # Point estimate
+  pte <- mean(x)
+  abline(v = pte, lwd = 3, col = "Black")
+  text(pte, max(para$density) / 2, round(pte, 2), col = "Black", cex = 1.5)
+  segments(ci[1], 0, ci[2], 0, lwd = 4, col = "Red")
+  text(ci[1], 0, paste("(", round(ci[1], 2), sep = ""), col = "Red", cex = 1.5)
+  text(ci[2], 0, paste(round(ci[2], 2), ")", sep = ""), col = "Red", cex = 1.5)
+  segments(theoretical_ci[1], 0.05, theoretical_ci[2], 0.05, lwd = 4, col = "Blue")
+  text(theoretical_ci[1], 0.05, paste("(", round(theoretical_ci[1], 2), sep = ""), col = "Blue", cex = 1.5)
+  text(theoretical_ci[2], 0.05, paste(round(theoretical_ci[2], 2), ")", sep = ""), col = "Blue", cex = 1.5)
+  
+  return(list(ci = ci, theoretical_ci = theoretical_ci, fun = fun, x = x))
+}
+
+################### END mybooot function #####################
+
+set.seed(35)
+sam <- round(rnorm(30, mean = 20, sd = 3), 3)
+myboot(10000, x = sam, fun = mean, alpha = 0.05, xlab = "Bootstrap Mean")
+```
