@@ -15,3 +15,26 @@ devtools::install("C:/Users/Zanel/OneDrive/Desktop/FALL 2024 STATS/FALL224753les
 library(LabPackages)
 LabPackages::ntickets(N=400,gamma = 0.02, p = 0.95)
 ```
+
+```{r}
+tmp <- LabPackages::myf(0, coef= c(1,2,0.5))
+tmp
+```
+
+```{r}
+tmp <- LabPackages::mybin(n=10, p=0.7, iter=100)
+tmp
+```
+
+```{r}
+LabPackages::myncurve(mu=10, sigma=5, a=6)
+```
+
+```{r}
+data("fire")
+knitr::kable(head(fire))
+```
+
+```{r}
+LabPackages::mycltp(n = 5, iter = 10000, lambda = 10)
+```

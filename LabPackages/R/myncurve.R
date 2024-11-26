@@ -5,12 +5,9 @@
 #' @param a end point of x
 #' @return (probability, P(X<=a))
 #' @importFrom graphics barplot curve polygon text
-#' @examples
-#' mu <- 10
-#' sigma <- 5
-#' a <- 5
 #' @export
-myncurve <-  function(mu, sigma, a) {
+#' @usage myncurve(mu=10, sigma=5, a=6)
+myncurve <-  function(mu = 10, sigma = 5, a = 6) {
   x <- NULL
 
 curve(dnorm(x, mean=mu, sd=sigma), xlim = c(mu-3*sigma, mu + 3*sigma),

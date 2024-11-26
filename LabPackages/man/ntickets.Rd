@@ -4,7 +4,7 @@
 \alias{ntickets}
 \title{Overbook Simulation}
 \usage{
-ntickets(N = 200, gamma = 0.02, p = 0.95)
+ntickets(N= 200,gamma = 0.02, p = 0.95)
 }
 \arguments{
 \item{N}{number of seats}

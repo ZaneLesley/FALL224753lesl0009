@@ -4,7 +4,7 @@
 \alias{myncurve}
 \title{display the curve, shaded area between the curve and x axis from -∞ to x=a}
 \usage{
-myncurve(mu, sigma, a)
+myncurve(mu=10, sigma=5, a=6)
 }
 \arguments{
 \item{mu}{mean}
@@ -18,9 +18,4 @@ myncurve(mu, sigma, a)
 }
 \description{
 display the curve, shaded area between the curve and x axis from -∞ to x=a
-}
-\examples{
-mu <- 10
-sigma <- 5
-a <- 5
 }

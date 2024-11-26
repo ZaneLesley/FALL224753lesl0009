@@ -5,10 +5,8 @@
 #' @param p probability
 #' @return simulation of bionomial experiment in barplots
 #' @importFrom grDevices rainbow
-#' @examples
-#' iter <- 200
-#' iter <- 500
 #' @export
+#' @usage mybin(iter=100, n=10, p=0.5)
 #'
 mybin <- function(iter=100,n=10, p=0.5){
   # make a matrix to hold the samples

@@ -7,6 +7,7 @@
 #' @import ggplot2
 #' @importFrom stats dnorm pbinom pnorm
 #' @export
+#' @usage ntickets(N= 200,gamma = 0.02, p = 0.95)
 #'
 ntickets <- function(N = 200, gamma = 0.02, p = 0.95) {
   value <- NULL

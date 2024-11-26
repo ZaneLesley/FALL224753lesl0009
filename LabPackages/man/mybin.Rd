@@ -4,7 +4,7 @@
 \alias{mybin}
 \title{Binomial Experiment Simulation}
 \usage{
-mybin(iter = 100, n = 10, p = 0.5)
+mybin(iter=100, n=10, p=0.5)
 }
 \arguments{
 \item{iter}{Iterator}
@@ -18,8 +18,4 @@ simulation of bionomial experiment in barplots
 }
 \description{
 Binomial Experiment Simulation
-}
-\examples{
-iter <- 200
-iter <- 500
 }
